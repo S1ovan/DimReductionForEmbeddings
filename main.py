@@ -5,6 +5,11 @@ from scipy.spatial.distance import cosine
 from sentence_transformers import SentenceTransformer
 from datasets import load_dataset
 
+from sklearn.decomposition import PCA
+from sklearn.decomposition import FastICA
+from sklearn.decomposition import FactorAnalysis
+from sklearn.decomposition import TruncatedSVD
+
 # загрузим модель
 model = SentenceTransformer("distiluse-base-multilingual-cased-v1")
 
@@ -26,11 +31,6 @@ for df in df_dev:
         mas_embed = np.concatenate((mas_embed, embeddings), axis=0)
 
 df = pd.DataFrame(res, columns=['sentence1', 'sentence2', 'score', 'semantic_sim'])
-        
-from sklearn.decomposition import PCA
-from sklearn.decomposition import FastICA
-from sklearn.decomposition import FactorAnalysis
-from sklearn.decomposition import TruncatedSVD
 
 # создадим список размерностей
 dims = [x for x in range(50, 451, 50)]
