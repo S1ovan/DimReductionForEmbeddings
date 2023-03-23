@@ -36,8 +36,8 @@ df = pd.DataFrame(res, columns=['sentence1', 'sentence2', 'score', 'semantic_sim
 dims = [x for x in range(50, 451, 50)]
 
 # рассчитаем Евклидово расстояние для базовой модели
-df['eucl_dis'] = (df['score'] - df['semantic_sim'])**2
-tmp_targ = df['eucl_dis'].sum() ** 0.5
+df['eucl_dis'] = np.square(df['score'] - df['semantic_sim'])
+tmp_targ = np.sqrt(df['eucl_dis'].sum())
 targ = [tmp_targ for _ in range(len(dims))]
 
 # для каждого метода уменьшения размерности
@@ -59,8 +59,8 @@ for el in dims:
     
     # евклидово расстояние 
     df[f'reduce_sim_ica_{el}'] = tmp_res
-    df['eucl_dis_ica'] = (df['score'] - df[f'reduce_sim_ica_{el}'])**2
-    eucl_dis_ica.append(df['eucl_dis_ica'].sum() ** 0.5)
+    df['eucl_dis_ica'] = np.square(df['score'] - df[f'reduce_sim_ica_{el}'])
+    eucl_dis_ica.append(np.sqrt(df['eucl_dis_ica'].sum()))
 
 # PCA
 eucl_dis_pca = []
@@ -76,8 +76,8 @@ for el in dims:
     
     # евклидово расстояние
     df[f'reduce_sim_pca_{el}'] = tmp_res
-    df['eucl_dis_pca'] = (df['score'] - df[f'reduce_sim_pca_{el}'])**2
-    eucl_dis_pca.append(df['eucl_dis_pca'].sum() ** 0.5)
+    df['eucl_dis_pca'] = np.square(df['score'] - df[f'reduce_sim_pca_{el}'])
+    eucl_dis_pca.append(np.sqrt(df['eucl_dis_pca'].sum()))
 
 # FA
 eucl_dis_fa = []
@@ -93,8 +93,8 @@ for el in dims:
     
     # евклидово расстояние
     df[f'reduce_sim_fa_{el}'] = tmp_res
-    df['eucl_dis_fa'] = (df['score'] - df[f'reduce_sim_fa_{el}'])**2
-    eucl_dis_fa.append(df['eucl_dis_fa'].sum() ** 0.5)
+    df['eucl_dis_fa'] = np.square(df['score'] - df[f'reduce_sim_fa_{el}'])
+    eucl_dis_fa.append(np.sqrt(df['eucl_dis_fa'].sum()))
 
 # TSVD
 eucl_dis_tsvd = []
@@ -110,8 +110,8 @@ for el in dims:
     
     # евклидово расстояние
     df[f'eucl_dis_tsvd_{el}'] = tmp_res
-    df['eucl_dis_tsvd'] = (df['score'] - df[f'eucl_dis_tsvd_{el}'])**2
-    eucl_dis_tsvd.append(df['eucl_dis_tsvd'].sum() ** 0.5)
+    df['eucl_dis_tsvd'] = np.square(df['score'] - df[f'eucl_dis_tsvd_{el}'])
+    eucl_dis_tsvd.append(np.sqrt(df['eucl_dis_tsvd'].sum()))
 
 # нарисуем график
 plt.figure(figsize=(12,7.5), dpi= 80)
