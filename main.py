@@ -24,7 +24,7 @@ for df in df_dev:
     embeddings = model.encode([df['sentence1'], df['sentence2']])
     semantic_sim = 1 - cosine(embeddings[0], embeddings[1]) # косинусное сходство между парами предложений
     res.append([df['sentence1'], df['sentence2'], score, semantic_sim])
-    if F == True:
+    if F is True:
         mas_embed = embeddings
         F = False
     else:    
